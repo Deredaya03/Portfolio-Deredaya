@@ -1,0 +1,169 @@
+---
+// src/components/Viewer3D.astro
+---
+
+<div id="canvas-container"></div>
+
+<style>
+  #canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1000;
+    overflow: hidden;
+  }
+  
+  #canvas-container :global(canvas) {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
+
+<script>
+  import * as THREE from 'three';
+  import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
+
+  let meshSTL: THREE.Mesh | null = null;
+  const modelGroup = new THREE.Group(); 
+  let scene: THREE.Scene;
+  let camera: THREE.PerspectiveCamera;
+  let renderer: THREE.WebGLRenderer;
+
+  function mapRange(value: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
+    return outMin + ((value - inMin) / (inMax - inMin)) * (outMax - outMin);
+  }
+
+  function updateModelProps() {
+    if (!modelGroup) return;
+
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0;
+
+    const targetRad50 = -((50 * Math.PI) / 180);
+
+    // --- TRAMO 1: 0% a 39% ---
+    if (scrollPercent >= 0 && scrollPercent < 0.40) {
+      const progress = mapRange(scrollPercent, 0, 0.39, 0, 1);
+
+      modelGroup.position.x = mapRange(progress, 0, 1, 0, 15);         
+      modelGroup.position.y = mapRange(progress, 0, 1, 0, -4);         
+      modelGroup.position.z = 0;
+      modelGroup.rotation.y = mapRange(progress, 0, 1, 0, targetRad50); 
+    }
+    
+    // --- TRAMO 2: 40% a 59% ---
+    else if (scrollPercent >= 0.40 && scrollPercent < 0.60) {
+      const progress = mapRange(scrollPercent, 0.40, 0.59, 0, 1);
+
+      modelGroup.position.x = 15; 
+      modelGroup.position.y = -4; 
+      modelGroup.position.z = mapRange(progress, 0, 1, 0, 20); 
+      modelGroup.rotation.y = targetRad50; 
+    }
+    
+    // --- TRAMO 3: 60% a 100% ---
+    else if (scrollPercent >= 0.60 && scrollPercent <= 1.0) {
+      const progress = mapRange(scrollPercent, 0.60, 1.0, 0, 1);
+
+      modelGroup.position.x = mapRange(progress, 0, 1, 15, 0);
+      modelGroup.position.y = mapRange(progress, 0, 1, -4, 0);
+      modelGroup.position.z = mapRange(progress, 0, 1, 20, 0);
+      modelGroup.rotation.y = mapRange(progress, 0, 1, targetRad50, 0);
+    }
+  }
+
+  window.addEventListener('scroll', updateModelProps);
+
+  const container = document.getElementById('canvas-container');
+  if (!container) throw new Error("Contenedor 'canvas-container' no encontrado");
+
+  scene = new THREE.Scene();
+  scene.add(modelGroup);
+  
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 5, 65); 
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.6; 
+  container.appendChild(renderer.domElement);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.18); 
+  scene.add(ambientLight);
+
+  const rimLeft = new THREE.DirectionalLight(0xffffff, 3.5);
+  rimLeft.position.set(-45, 25, -15); 
+  rimLeft.castShadow = true;
+  rimLeft.shadow.mapSize.width = 2048;
+  rimLeft.shadow.mapSize.height = 2048;
+  scene.add(rimLeft);
+
+  const spotTopRight = new THREE.SpotLight(0xffffff, 80.0);
+  spotTopRight.position.set(30, 45, 10);
+  spotTopRight.angle = Math.PI / 3;
+  spotTopRight.penumbra = 0.6;
+  spotTopRight.castShadow = true;
+  scene.add(spotLightTargetSetup(spotTopRight, 0, 0, 0));
+
+  function spotLightTargetSetup(light: THREE.SpotLight, x: number, y: number, z: number) {
+    const targetObj = new THREE.Object3D();
+    targetObj.position.set(x, y, z);
+    scene.add(targetObj);
+    light.target = targetObj;
+    return light;
+  }
+
+  const loader = new STLLoader();
+  loader.load('/models/Samurai.stl', (geometry) => {
+    
+    const material = new THREE.MeshStandardMaterial({ 
+      color: 0x2b2b2b,
+      roughness: 0.38,
+      metalness: 0.0,
+    });
+
+    (material as any).clearcoat = 0.4;
+    (material as any).clearcoatRoughness = 0.3;
+    
+    meshSTL = new THREE.Mesh(geometry, material);
+    
+    meshSTL.castShadow = true;
+    meshSTL.receiveShadow = true;
+    
+    geometry.center();               
+    geometry.computeVertexNormals(); 
+
+    meshSTL.rotation.x = -Math.PI / 2; 
+
+    modelGroup.add(meshSTL);
+    updateModelProps();
+  }, 
+  (xhr) => {
+    console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+  }, 
+  (error) => {
+    console.error('Error al cargar el archivo STL:', error);
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
