@@ -1,35 +1,50 @@
 ---
-import '@styles/intro.css';
 import GlobeIcon from '@assets/Globe.astro';
+
+const { data } = Astro.props; 
+const { Global, Experience, Btns } = data;
 ---
 
 <div class="intro-wrapper">
   <section class="intro-container scroll-fade">
-    <p class="title-top">Deredaya</p>
+    <p class="title-top">{Global.Title}</p>
     <div class="divider">
-      <p class="subtitle">Developer Frontend</p>
-      <p class="title">Brandon Calderon</p>
+      <p class="subtitle">{Global.Subtitle}</p>
+      <p class="title">{Global.Name}</p>
     </div>
-    <p class="location"><GlobeIcon /> Xalapa. Ver</p>
-
-    <article class="experience">
-      <h3>Experiencia</h3>
-      <div class="skils">
-        <p class="btn-item">Astro.Js</p>
-        <p class="btn-item">Tailwind CSS</p>
-        <p class="btn-item">JavaScript</p>
-        <p class="btn-item">HTML</p>
-        <p class="btn-item">CSS</p>
-        <p class="btn-item">VBA</p>
-        <p class="btn-item">Excel</p>
-      </div>
-    </article>
+    
+    <p class="location"><GlobeIcon /> {Global.Location}</p>
+    
+    {
+      Experience.map((exp:any) => (
+        <article class="experience">
+          <h3>{exp.Title}</h3>
+          <div class="skils">
+            {
+              exp.Skills.map((skill:any) => (
+                <p class="btn-item">{skill}</p>
+              ))
+            }
+          </div>
+        </article>
+      ))
+    }
   </section>
+
   <section class="buttons">
-    <a href="tel:+5644908381" class="btn tel">Contactame</a>
-    <button id="btn-copiar" class="btn email">Copiar enlace</button>
+    {
+      Btns.Tel.map((tel:any) => (
+        <a href={tel.Href} class="btn tel">{tel.Text}</a>
+      ))
+    }
+    { 
+      Btns.Email.map((mail:any) => (
+        <button id="btn-copiar" class="btn email" data-email={mail.Email}>
+          {mail.Text}
+        </button>
+      ))
+    }
   </section>
 </div>
-
 
 <script src="@scripts/intro.js"></script>

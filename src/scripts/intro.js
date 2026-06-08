@@ -21,7 +21,7 @@ boton.addEventListener('click', () => {
   navigator.clipboard.writeText(email)
     .then(() => {
       boton.textContent = "¡Copiado!";
-      setTimeout(() => boton.textContent = "Copiar enlace", 2000);
+      setTimeout(() => boton.textContent = "Copiar Email", 2000);
     })
     .catch(err => {
       console.error('Error al copiar al portapapeles: ', err);

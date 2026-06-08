@@ -92,7 +92,7 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
 
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.6; 
@@ -149,7 +149,7 @@
     updateModelProps();
   }, 
   (xhr) => {
-    console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+    // console.log((xhr.loaded / xhr.total * 100) + '% cargado');
   }, 
   (error) => {
     console.error('Error al cargar el archivo STL:', error);

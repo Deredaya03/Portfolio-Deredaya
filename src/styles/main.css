@@ -21,15 +21,17 @@
   .logo {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
     color: #ffffff;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-
+    
     .icon {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
       z-index: 2;
       
       &:hover + .icon-bg path {
@@ -68,7 +70,11 @@
     .link >a:hover {
       border-bottom: solid 2px white;
     }
+
   }
+}
+.active {
+  border-bottom: solid 2px white !important;
 }
 .space {
   width: 100%;
@@ -97,8 +103,8 @@
 }
 
 .card {
-  width: 350px;
-  height: 350px;
+  width: 300px;
+  height: 300px;
   background: #69696980;
   border-radius: 20px;
 
