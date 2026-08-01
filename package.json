@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/vercel": "9",
+    "@vercel/speed-insights": "^2.0.0",
     "astro": "^5.17.1",
     "gsap": "^3.15.0",
     "resend": "^6.18.1",
