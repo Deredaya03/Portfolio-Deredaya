@@ -2,8 +2,8 @@ export const Data = {
   Header: {
     NavItems: [
       { Name: 'INICIO', Href: '/' },
-      { Name: 'SOBRE MI', Href: '/about'},
-      { Name: 'PROYECTOS', Href: '/proyects' },
+      { Name: 'SOBRE MI', Href: '/#about'},
+      { Name: 'PROYECTOS', Href: '/projects' },
       { Name: 'CONTACTO', Href: '/contact' }
     ],
     link: "https://github.com/Deredaya03",
@@ -13,13 +13,14 @@ export const Data = {
     Global: {  
       Title: 'Deredaya',
       Subtitle: 'Developer Frontend',
-      Name: 'Brandon Calderon',
+      Name: 'Brandon',
+      LastName:'Calderon',
       Location: 'Xalapa. Ver',
     },
     Experience: [
       {
         Title: "Experiencia",
-        Skills: ["Astro.Js", "JavaScript", "HTML", "CSS", "VBA", "Excel"]
+        Skills: ["Astro.Js", "JavaScript", "HTML", "CSS", "Tailwind CSS", "VBA", "Excel"]
       }
     ],
     Btns: {
@@ -27,6 +28,39 @@ export const Data = {
       Email: [{ Email: 'deredaya.adm@gmail.com', Text: 'Copiar Email' }]
     }
   },
+
+  Projects: [
+    {
+      title: 'Finanzas',
+      image: '/finanzas.png',
+      link: 'https://finanzas.deredaya.com',
+      dataScrollTarget: 5,
+    },
+    {
+      title: 'Reportes',
+      image: '/clientes-nuevos.png',
+      link: '',
+      dataScrollTarget: 20,
+    },
+    {
+      title: 'Inventarios',
+      image: '/inventarios.png',
+      link: 'https://inventory-cape.vercel.app',
+      dataScrollTarget: 50,
+    },
+    {
+      title: 'Melanina',
+      image: '/melanina.png',
+      link: '',
+      dataScrollTarget: 80,
+    },
+    {
+      title: 'HOTEL SAKURA',
+      image: '/sakura.png',
+      link: 'https://sakura.deredaya.com/',
+      dataScrollTarget: 80,
+    },
+  ],
 
   Footer: {
     Copyright: `© 2026 Brandon Calderon`,

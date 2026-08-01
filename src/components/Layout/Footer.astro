@@ -1,0 +1,146 @@
+---
+import Logo from '@assets/Logo.astro';
+
+interface Social {
+  Name: string;
+  Href: string;
+}
+
+interface Props {
+  copyright?: string;
+  socials?: Social[];
+}
+
+const {
+  copyright = '© 2026 Brandon Calderon',
+  socials = [],
+} = Astro.props;
+
+const currentYear = new Date().getFullYear();
+
+const footerCopyright = copyright.replace(
+  /\d{4}/,
+  String(currentYear)
+);
+---
+
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a
+        class="footer-logo"
+        href="/"
+        aria-label="Ir al inicio"
+      >
+        <Logo class="icon"/>
+        <Logo class="icon-bg"/>
+      </a>
+
+      <p class="footer-description">
+        Desarrollo web, automatización y sistemas diseñados
+        para necesidades reales.
+      </p>
+
+      <div class="footer-status">
+        <span
+          class="footer-status-dot"
+          aria-hidden="true"
+        ></span>
+
+        <span>Disponible para nuevos proyectos</span>
+      </div>
+    </div>
+
+    <nav
+      class="footer-navigation"
+      aria-label="Navegación del pie de página"
+    >
+      <span class="footer-column-title">
+        Navegación
+      </span>
+
+      <a href="/">Inicio</a>
+      <a href="/#about">Sobre mí</a>
+      <a href="/#projects">Proyectos</a>
+      <a href="/#contact">Contacto</a>
+    </nav>
+
+    <div class="footer-contact">
+      <span class="footer-column-title">
+        Contacto
+      </span>
+
+      <a href="mailto:deredaya.adm@gmail.com">
+        deredaya.adm@gmail.com
+      </a>
+
+      {
+        socials.map((social) => (
+          <a
+            href={social.Href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {social.Name}
+          </a>
+        ))
+      }
+    </div>
+
+    <button
+      class="footer-top"
+      type="button"
+      data-scroll-top
+      aria-label="Volver al inicio"
+    >
+      <span>Volver arriba</span>
+
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M12 19V5"></path>
+        <path d="m6 11 6-6 6 6"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="footer-bottom">
+    <p>{footerCopyright}</p>
+
+    <p>
+      Diseñado y desarrollado por Deredaya
+    </p>
+  </div>
+</footer>
+
+<script>
+  function initializeFooter(): void {
+    const buttons =
+      document.querySelectorAll<HTMLButtonElement>(
+        '[data-scroll-top]'
+      );
+
+    buttons.forEach((button) => {
+      if (button.dataset.initialized === 'true') {
+        return;
+      }
+
+      button.dataset.initialized = 'true';
+
+      button.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
+    });
+  }
+
+  initializeFooter();
+
+  document.addEventListener(
+    'astro:page-load',
+    initializeFooter
+  );
+</script>

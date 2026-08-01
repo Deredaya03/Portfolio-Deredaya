@@ -1,0 +1,96 @@
+---
+const email = 'deredaya.adm@gmail.com';
+---
+
+<section class="prefooter" id="contact">
+  <div class="prefooter-glow" aria-hidden="true"></div>
+
+  <div class="prefooter-content">
+    <div class="prefooter-heading">
+      <span class="prefooter-label">
+        Contacto
+      </span>
+
+      <h2 class="prefooter-title">
+        ¿Tienes un proyecto
+        <span>en mente?</span>
+      </h2>
+    </div>
+
+    <div class="prefooter-information">
+      <p class="prefooter-description">
+        Cuéntame qué necesitas y trabajemos en una solución
+        diseñada específicamente para tu proyecto o empresa.
+      </p>
+
+      <div class="prefooter-actions">
+        <a
+          class="prefooter-primary"
+          href={`mailto:${email}`}
+        >
+          <span>Hablemos</span>
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </a>
+
+        <button
+          class="prefooter-copy"
+          type="button"
+          data-copy-email
+          data-email={email}
+        >
+          <span data-copy-text>
+            Copiar correo
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="prefooter-decoration" aria-hidden="true">
+    DEREDAYA
+  </div>
+</section>
+
+<script>
+  const copyButton =
+    document.querySelector<HTMLButtonElement>(
+      '[data-copy-email]'
+    );
+
+  if (copyButton) {
+    copyButton.addEventListener('click', async () => {
+      const email = copyButton.dataset.email;
+      const text =
+        copyButton.querySelector<HTMLElement>(
+          '[data-copy-text]'
+        );
+
+      if (!email || !text) return;
+
+      try {
+        await navigator.clipboard.writeText(email);
+
+        const originalText = text.textContent;
+
+        text.textContent = 'Correo copiado';
+
+        window.setTimeout(() => {
+          text.textContent =
+            originalText ?? 'Copiar correo';
+        }, 1800);
+      } catch (error) {
+        console.error(
+          'No fue posible copiar el correo:',
+          error
+        );
+      }
+    });
+  }
+</script>

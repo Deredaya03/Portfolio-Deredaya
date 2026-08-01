@@ -1,0 +1,97 @@
+---
+interface Project {
+  title: string;
+  image: string;
+  link: string;
+  dataScrollTarget?: number;
+}
+
+interface Props {
+  card: Project;
+  index?: number;
+}
+
+const {
+  card,
+  index = 0,
+} = Astro.props;
+
+const {
+  title,
+  image,
+  link,
+} = card;
+
+const formattedIndex = String(
+  index + 1
+).padStart(2, '0');
+
+const hasLink =
+  typeof link === 'string' &&
+  link.trim().length > 0;
+
+const isExternalLink =
+  hasLink &&
+  /^https?:\/\//i.test(link);
+---
+
+<div class="project-card">
+  <div class="project-card-content">
+    <span class="project-card-index">
+      Proyecto {formattedIndex}
+    </span>
+
+    <h3 class="project-card-title">
+      {title}
+    </h3>
+
+    {
+      hasLink ? (
+        <a
+          class="project-card-link"
+          href={link}
+          target={isExternalLink ? '_blank' : undefined}
+          rel={isExternalLink ? 'noopener noreferrer' : undefined}
+          aria-label={`Abrir proyecto ${title}`}
+        >
+          <span>Ver proyecto</span>
+
+          <svg
+            class="project-card-link-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14"></path>
+            <path d="m13 6 6 6-6 6"></path>
+          </svg>
+        </a>
+      ) : (
+        <span class="project-card-disabled">
+          Próximamente
+        </span>
+      )
+    }
+  </div>
+
+  <div class="project-card-media">
+    <img
+      class="project-card-image"
+      src={image}
+      alt={`Vista previa del proyecto ${title}`}
+      loading={index === 0 ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+
+    <div
+      class="project-card-image-overlay"
+      aria-hidden="true"
+    ></div>
+
+    <span
+      class="project-card-number"
+      aria-hidden="true"
+    >
+      {formattedIndex}
+    </span>
+  </div>
+</div>

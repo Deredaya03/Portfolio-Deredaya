@@ -15,7 +15,7 @@ elements.forEach((el) => observer.observe(el));
 
 const boton = document.getElementById('btn-copiar');
 
-boton.addEventListener('click', () => {
+  boton.addEventListener('click', () => {
   const email = "deredaya.adm@gmail.com";
 
   navigator.clipboard.writeText(email)

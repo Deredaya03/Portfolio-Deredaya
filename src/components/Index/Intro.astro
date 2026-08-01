@@ -7,10 +7,12 @@ const { Global, Experience, Btns } = data;
 
 <div class="intro-wrapper">
   <section class="intro-container scroll-fade">
-    <p class="title-top">{Global.Title}</p>
-    <div class="divider">
+    <div class="">
+      <p class="title-top">{Global.Title}</p>
       <p class="subtitle">{Global.Subtitle}</p>
-      <p class="title">{Global.Name}</p>
+    </div>
+    <div class="divider">
+      <p class="title">{Global.Name}<br/>{Global.LastName}</p>
     </div>
     
     <p class="location"><GlobeIcon /> {Global.Location}</p>

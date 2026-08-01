@@ -1,0 +1,449 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Viewer3D from '@components/Viewer3D.astro';
+
+import '@styles/contact.css';
+
+import { Data } from '@db/index.ts';
+
+const email =
+  Data.Intro.Btns.Email[0]?.Email ??
+  'deredaya.adm@gmail.com';
+
+const phone =
+  Data.Intro.Btns.Tel[0]?.Href ??
+  'tel:+56444908381';
+
+const github =
+  Data.Header.link ??
+  'https://github.com/Deredaya03';
+---
+
+<Layout title="Contacto | Deredaya">
+  <!-- Modelo 3D -->
+  <div class="contact-viewer" aria-hidden="true">
+    <Viewer3D />
+  </div>
+
+  <main class="contact-page">
+    <div class="contact-space"></div>
+
+    <!-- HERO -->
+    <header class="contact-hero">
+      <div class="contact-hero-content">
+        <span
+          class="contact-eyebrow"
+          data-contact-reveal
+        >
+          Contacto
+        </span>
+
+        <h1
+          class="contact-title"
+          data-contact-reveal
+        >
+          Construyamos
+          <span>algo juntos.</span>
+        </h1>
+
+        <p
+          class="contact-description"
+          data-contact-reveal
+        >
+          Cuéntame sobre tu proyecto, sistema o proceso que deseas
+          automatizar. Podemos crear una solución diseñada
+          específicamente para tus necesidades.
+        </p>
+      </div>
+
+      <div
+        class="contact-availability"
+        data-contact-reveal
+      >
+        <span
+          class="contact-status-dot"
+          aria-hidden="true"
+        ></span>
+
+        <div>
+          <strong>Disponible</strong>
+          <span>Para nuevos proyectos</span>
+        </div>
+      </div>
+
+      <div
+        class="contact-scroll-hint"
+        aria-hidden="true"
+      >
+        <span>Escríbeme</span>
+        <span class="contact-scroll-arrow">↓</span>
+      </div>
+    </header>
+
+    <!-- INFORMACIÓN + FORMULARIO -->
+    <section class="contact-main">
+      <aside
+        class="contact-information"
+        data-contact-reveal
+      >
+        <div class="contact-information-heading">
+          <span class="contact-section-label">
+            Información
+          </span>
+
+          <h2>
+            Hablemos de tu siguiente proyecto
+          </h2>
+
+          <p>
+            Puedes enviarme los detalles de tu idea, las funciones
+            que necesitas o el problema que deseas solucionar.
+          </p>
+        </div>
+
+        <div class="contact-methods">
+          <a
+            class="contact-method"
+            href={`mailto:${email}`}
+          >
+            <span class="contact-method-label">
+              Correo
+            </span>
+
+            <strong>{email}</strong>
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m13 6 6 6-6 6"></path>
+            </svg>
+          </a>
+
+          <a
+            class="contact-method"
+            href={phone}
+          >
+            <span class="contact-method-label">
+              Teléfono
+            </span>
+
+            <strong>Contactarme</strong>
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m13 6 6 6-6 6"></path>
+            </svg>
+          </a>
+
+          <a
+            class="contact-method"
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="contact-method-label">
+              GitHub
+            </span>
+
+            <strong>Ver perfil</strong>
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m13 6 6 6-6 6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <button
+          class="contact-copy"
+          type="button"
+          data-contact-copy
+          data-email={email}
+        >
+          <span data-contact-copy-text>
+            Copiar correo
+          </span>
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <rect
+              x="8"
+              y="8"
+              width="11"
+              height="11"
+              rx="2"
+            ></rect>
+
+            <path
+              d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"
+            ></path>
+          </svg>
+        </button>
+      </aside>
+
+      <!-- FORMULARIO -->
+      <section
+        class="contact-form-panel"
+        data-contact-reveal
+      >
+        <header class="contact-form-header">
+          <span class="contact-section-label">
+            Nuevo mensaje
+          </span>
+
+          <h2>Cuéntame sobre tu idea</h2>
+        </header>
+
+        <form
+          class="contact-form"
+          data-contact-form
+          novalidate
+        >
+          <!-- Honeypot antispam -->
+          <label
+            class="contact-honeypot"
+            aria-hidden="true"
+          >
+            <span>Sitio web</span>
+
+            <input
+              type="text"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </label>
+
+          <div class="contact-field-row">
+            <label class="contact-field">
+              <span>Nombre</span>
+
+              <input
+                type="text"
+                name="name"
+                autocomplete="name"
+                placeholder="Tu nombre"
+                minlength="2"
+                maxlength="80"
+                required
+              />
+            </label>
+
+            <label class="contact-field">
+              <span>Correo</span>
+
+              <input
+                type="email"
+                name="email"
+                autocomplete="email"
+                placeholder="correo@ejemplo.com"
+                maxlength="150"
+                required
+              />
+            </label>
+          </div>
+
+          <label class="contact-field">
+            <span>Empresa o proyecto</span>
+
+            <input
+              type="text"
+              name="company"
+              autocomplete="organization"
+              placeholder="Nombre de tu empresa o proyecto"
+              maxlength="120"
+            />
+          </label>
+
+          <label class="contact-field">
+            <span>Tipo de proyecto</span>
+
+            <select
+              name="projectType"
+              required
+            >
+              <option
+                value=""
+                selected
+                disabled
+              >
+                Selecciona una opción
+              </option>
+
+              <option value="Desarrollo web">
+                Desarrollo web
+              </option>
+
+              <option value="Automatización">
+                Automatización
+              </option>
+
+              <option value="Sistema con VBA">
+                Sistema con VBA
+              </option>
+
+              <option value="Aplicación de escritorio">
+                Aplicación de escritorio
+              </option>
+
+              <option value="Sistema empresarial">
+                Sistema empresarial
+              </option>
+
+              <option value="Otro">
+                Otro
+              </option>
+            </select>
+          </label>
+
+          <label class="contact-field">
+            <span>Mensaje</span>
+
+            <textarea
+              name="message"
+              rows="7"
+              placeholder="Describe qué necesitas, qué problema deseas resolver y qué resultado esperas."
+              minlength="10"
+              maxlength="5000"
+              required
+            ></textarea>
+          </label>
+
+          <div
+            class="contact-form-status"
+            data-contact-status
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <div class="contact-form-footer">
+            <p>
+              El mensaje se enviará directamente sin salir de esta
+              página.
+            </p>
+
+            <button
+              class="contact-submit"
+              type="submit"
+              data-contact-submit
+            >
+              <span data-contact-submit-text>
+                Enviar mensaje
+              </span>
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m13 6 6 6-6 6"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </section>
+    </section>
+
+    <!-- PROCESO -->
+    <section class="contact-process">
+      <header
+        class="contact-process-header"
+        data-contact-reveal
+      >
+        <span class="contact-section-label">
+          Proceso
+        </span>
+
+        <h2>¿Qué sucede después?</h2>
+      </header>
+
+      <div class="contact-process-grid">
+        <article
+          class="contact-process-card"
+          data-contact-card
+        >
+          <span>01</span>
+
+          <h3>Revisión</h3>
+
+          <p>
+            Revisaré los detalles de tu proyecto y sus necesidades
+            principales.
+          </p>
+        </article>
+
+        <article
+          class="contact-process-card"
+          data-contact-card
+        >
+          <span>02</span>
+
+          <h3>Propuesta</h3>
+
+          <p>
+            Definiremos alcance, funciones, tiempos y la mejor
+            alternativa técnica.
+          </p>
+        </article>
+
+        <article
+          class="contact-process-card"
+          data-contact-card
+        >
+          <span>03</span>
+
+          <h3>Desarrollo</h3>
+
+          <p>
+            Construiremos una solución clara, eficiente y adaptada
+            a tu forma de trabajo.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import '@scripts/contact-page.ts';
+  </script>
+</Layout>
+
+<style>
+  :root {
+    color-scheme: dark;
+  }
+
+  .contact-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+
+    width: 100%;
+    height: 100svh;
+
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .contact-viewer > :global(*) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .contact-viewer :global(canvas) {
+    display: block;
+
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>

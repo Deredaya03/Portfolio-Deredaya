@@ -9,8 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/vercel": "^11.0.4",
     "astro": "^5.17.1",
     "gsap": "^3.15.0",
+    "resend": "^6.18.1",
     "three": "^0.184.0",
     "vanilla-tilt": "^1.8.1"
   },
